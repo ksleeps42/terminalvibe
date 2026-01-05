@@ -1,0 +1,99 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#6366f1', 'primaryTextColor': '#fff', 'primaryBorderColor': '#818cf8', 'lineColor': '#a5b4fc', 'secondaryColor': '#1e1b4b', 'tertiaryColor': '#312e81'}}}%%
+
+flowchart TB
+    subgraph Project["Terminal Vibe - Live Terminal Dashboard"]
+        direction TB
+
+        subgraph DataFlow["Lightweight Data Flow"]
+            direction LR
+            Terminals["Terminal Apps<br/>(iTerm, Warp, Terminal)"]
+            Detect["desktopCapturer<br/>10s polling<br/>No screenshots"]
+            Transform["terminalsToAgents()"]
+            Display["Icon Grid<br/>Click to Focus"]
+
+            Terminals -->|"window list"| Detect
+            Detect -->|"filtered terminals"| Transform
+            Transform -->|"clickable icons"| Display
+        end
+
+        subgraph Architecture["System Architecture"]
+            direction TB
+
+            subgraph Electron["Electron Main Process"]
+                Main[main.js]
+                Store[(electron-store)]
+                TermCap[terminalCapture.js]
+                GitOps[gitOperations.js]
+                IPC{IPC Handlers}
+            end
+
+            subgraph React["React Renderer"]
+                App[App.jsx]
+
+                subgraph Views["Views"]
+                    Setup[SetupWizard]
+                    Dash[Dashboard]
+                    Settings[Settings]
+                    Perms[PermissionPrompt]
+                end
+
+                subgraph Components["Components"]
+                    Sidebar[Sidebar<br/>ContextMonitor]
+                    TermCard[TerminalCard<br/>Live Screenshots]
+                    Mermaid[MermaidDiagram]
+                    WTMgr[WorktreeManager]
+                end
+
+                subgraph Hooks["Hooks & Utils"]
+                    AudioHook[useAudioNotifications]
+                    Synth[audioSynth.js]
+                end
+            end
+
+            subgraph External["External Systems"]
+                macOS[macOS Screen Capture]
+                Git[Git CLI]
+                FS[File System]
+            end
+
+            Main --> IPC
+            IPC <--> App
+            Store <--> Main
+            TermCap --> macOS
+            GitOps --> Git
+            Main --> FS
+            App --> Views
+            Dash --> Components
+            Settings --> WTMgr
+            AudioHook --> Synth
+        end
+
+        subgraph Roadmap["Development Roadmap"]
+            direction LR
+
+            subgraph Complete["Completed"]
+                v010["v0.1.0<br/>Electron + React"]
+                v020["v0.2.0<br/>Terminal Capture<br/>Audio Synth<br/>Cyberpunk UI"]
+                v030["v0.3.0 MVP<br/>Setup Wizard<br/>Git Worktrees<br/>Context Import"]
+                v031["v0.3.1<br/>Real Terminal Data<br/>Live Screenshots<br/>No Mock Data"]
+            end
+
+            subgraph Next["In Progress"]
+                v040["v0.4.0<br/>Agent Status Parsing<br/>Worktree Auto-Detect<br/>Keyboard Shortcuts<br/>Native Notifications"]
+            end
+
+            subgraph Future["Planned"]
+                v050["v0.5.0+<br/>Claude AI Integration<br/>Analytics & Metrics<br/>Cross-Platform<br/>Plugin System"]
+            end
+
+            v010 --> v020 --> v030 --> v031 --> v040 --> v050
+        end
+    end
+
+    style Complete fill:#064e3b,stroke:#10b981
+    style Next fill:#78350f,stroke:#f59e0b
+    style Future fill:#1e1b4b,stroke:#6366f1
+    style Electron fill:#312e81,stroke:#818cf8
+    style React fill:#1e1b4b,stroke:#6366f1
+    style External fill:#1c1917,stroke:#64748b
+    style DataFlow fill:#0c4a6e,stroke:#0ea5e9

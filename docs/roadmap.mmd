@@ -1,0 +1,44 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#10b981', 'primaryTextColor': '#fff', 'primaryBorderColor': '#34d399', 'lineColor': '#6ee7b7', 'secondaryColor': '#064e3b', 'tertiaryColor': '#065f46'}}}%%
+
+flowchart LR
+    subgraph v010["v0.1.0 - Initial"]
+        A1[Electron App]
+        A2[React + Vite]
+        A3[Tray Menu]
+    end
+
+    subgraph v020["v0.2.0 - UI Upgrade"]
+        B1[Terminal Capture]
+        B2[Audio Synth]
+        B3[Mermaid Diagrams]
+        B4[Cyberpunk Theme]
+    end
+
+    subgraph v030["v0.3.0 - MVP ✓"]
+        C1[Setup Wizard]
+        C2[Git Worktrees]
+        C3[Context Import]
+        C4[Settings Tabs]
+    end
+
+    subgraph v040["v0.4.0 - Next"]
+        D1[Agent Status Parsing]
+        D2[Worktree Auto-Detect]
+        D3[Keyboard Shortcuts]
+        D4[Native Notifications]
+    end
+
+    subgraph v050["v0.5.0 - Future"]
+        E1[Claude AI Integration]
+        E2[Analytics]
+        E3[Cross-Platform]
+        E4[Plugin System]
+    end
+
+    v010 --> v020 --> v030 --> v040 --> v050
+
+    style v010 fill:#1e1b4b,stroke:#6366f1
+    style v020 fill:#1e1b4b,stroke:#6366f1
+    style v030 fill:#064e3b,stroke:#10b981
+    style v040 fill:#1c1917,stroke:#f59e0b
+    style v050 fill:#1c1917,stroke:#64748b
